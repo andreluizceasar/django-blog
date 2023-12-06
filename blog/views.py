@@ -54,10 +54,9 @@ def criar(request):
 
         try:
             form = PostForm(request.POST)
-
+            new_post = form.save(commit=False)
             new_post.author = request.user
             new_post.save()
-            
             return redirect('home')
 
         except ValueError:
@@ -67,7 +66,7 @@ def criar(request):
                 'error' : 'Favor inserir dados validos'
             })      
 
-@login_required  
+@login_required
 def delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()

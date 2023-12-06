@@ -11,16 +11,13 @@
 
         
 
-                        <div class="col-sm-6">
-
-                        <div class="card">
-                            <div class="card-body">
-                            <h5 class="card-title">  {% block title %} {{ object.title }}  {% endblock title %}</h5>
-                            <p class="card-text">  {{ object.content | safe }}  </p>
-
-                          
+                        <div class="col-sm-6 w-100">
+                            <div class="card">
+                                <div class="card-body">
+                                <h5 class="card-title">  {% block title %} {{ object.title }}  {% endblock title %}</h5>
+                                <p class="card-text">  {{ object.content | safe }}  </p>
+                                </div>
                             </div>
-                        </div>
                         </div>
           
             
