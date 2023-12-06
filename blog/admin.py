@@ -3,8 +3,7 @@ from .models import Post
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'status', 'created_on')
-    list_filter = ('status',)
+    list_display = ('title', 'slug', 'created_on')
     search_field= ('title', 'content')
 
 

@@ -8,4 +8,8 @@ urlpatterns = [
     path('sigup/', views.sigup, name='sigup'),
     path('sigin/', views.sigin, name='sigin'),
     path('sair/', views.sair, name='sair'),
+
+    path('criar/post/', views.criar_post, name='criar_post'),
+    path('criar/<int:post_id>/delete', views.deletar_post, name='deletar_post'), 
+
 ]

@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-STATUS = ((0, 'Draft'), (1, 'Published'))
-
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -12,7 +10,6 @@ class Post(models.Model):
     created_on = models.DateField(auto_now_add=True)
     update_on = models.DateField(auto_now=True)
     content = models.TextField()
-    status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
         ordering = ['-created_on']

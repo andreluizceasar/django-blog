@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from .forms import PostForm
+from .models import Post
+
 # Create your views here.
 def home(request):
     return render(request,'home.html')
@@ -74,8 +77,42 @@ def sair(request):
     logout (request)
     return redirect('home')
 
+@login_required 
+def criar_post(request):
+
+    if request.method == 'GET':
+        return render(request, 'criar_post.html', {
+            'form' : PostForm
+        })
+
+    else:
+
+        try:
+            form = PostForm(request.POST)
+            new_post = form.save(commit=False)
+            new_post.author = request.user
+            new_post.save()
+            return redirect('home')
+
+        except ValueError:
+
+            return render(request,'criar_post.html', {
+                'form' : PostForm,
+                'error' : 'Favor inserir dados validos'
+            })      
+
+
+#deletar tarefa
+@login_required  
+def deletar_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id, user=request.user)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+
 class PostList(generic.ListView):
-    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    queryset = Post.objects.order_by('-created_on')
     template_name = 'index.html'
 
 class DetailView(generic.DetailView):
