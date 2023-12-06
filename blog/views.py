@@ -12,48 +12,13 @@ from django.utils import timezone
 from .forms import PostForm
 from .models import Post
 
-# Create your views here.
 def home(request):
     return render(request,'home.html')
 
-
-def sigup(request):
-
-    if request.method == 'GET':
-
-        return render(request,'sigup.html', {
-            'form' : UserCreationForm
-        } )   
-
-    else: 
-        if request.POST['password1'] == request.POST['password2']:
-
-            try: 
-                
-                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
-                user.save()
-                
-                login(request, user)
-               
-                return redirect('home')
-                
-            except:
-                return render (request,'sigup.html', { 
-                    'form' : UserCreationForm ,
-                    "error": 'Usuário já existe'
-                    
-                    } ) 
-           
-        return render (request,'sigup.html', { 
-                    'form' : UserCreationForm ,
-                    "error": 'senhas são diferentes'
-                    
-                    } ) 
-
-def sigin(request):
+def signin(request):
 
     if request.method == 'GET':
-        return render(request,'sigin.html', {
+        return render(request,'signin.html', {
         'form': AuthenticationForm
         })
 
@@ -63,7 +28,7 @@ def sigin(request):
             request, username=request.POST['username'], password=request.POST['password'])
 
         if user is None:
-            return render(request, 'sigin.html', {
+            return render(request, 'signin.html', {
                     'form' : AuthenticationForm,
                     'error': 'Usuário ou senha está incorreto'
                 })
@@ -78,7 +43,7 @@ def sair(request):
     return redirect('home')
 
 @login_required 
-def criar_post(request):
+def criar(request):
 
     if request.method == 'GET':
         return render(request, 'criar_post.html', {
@@ -89,9 +54,10 @@ def criar_post(request):
 
         try:
             form = PostForm(request.POST)
-            new_post = form.save(commit=False)
+
             new_post.author = request.user
             new_post.save()
+            
             return redirect('home')
 
         except ValueError:
@@ -101,15 +67,23 @@ def criar_post(request):
                 'error' : 'Favor inserir dados validos'
             })      
 
-
-#deletar tarefa
 @login_required  
-def deletar_post(request, post_id):
-    post = get_object_or_404(Post, pk=post_id, user=request.user)
+def delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('home')
 
-    if request.method == 'POST':
-        post.delete()
+@login_required  
+def update(request, pk):
+    data = {}
+    post = Post.objects.get(pk=pk)
+    post = PostForm(request.POST or None, instance=post)
+    if post.is_valid():
+        post.save()
         return redirect('home')
+
+    data['form'] = post
+    return render(request, 'criar_post.html', data)
 
 class PostList(generic.ListView):
     queryset = Post.objects.order_by('-created_on')

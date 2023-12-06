@@ -9,7 +9,7 @@
 
             <div class="col-md-5 offset-md-3">
 
-                    <form action"/criar/psot/"  method="POST" class="card card-body">
+                    <form id="post-form" action"/criar/post/"  method="POST" class="card card-body">
 
                         {{ error }}
 
@@ -19,28 +19,6 @@
 
                         {{ form.as_p }}
 
-                        <!-- 
-                        <div class="mb-3">
-
-                            <label for="title" class="form-label">Titulo</label>
-                            <input type="text" name="title" class="form-control">
-           
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label for="slug" class="form-label">Slug</label>
-                            <input type="text" name="slug" class="form-control">
-           
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label for="content" class="form-label">Conteudo</label>
-                            <textarea class="form-control" id="content" rows="3"></textarea>
-           
-                        </div>
-                        -->
                         <button type="submit" class="btn btn-primary mt-2"> Salvar </button>
 
                     </form>

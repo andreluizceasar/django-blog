@@ -5,11 +5,11 @@ from blog import views
 urlpatterns = [
     path('', views.PostList.as_view(), name='home'),
     path('blog/<slug:slug>/', views.DetailView.as_view(), name='post_detail'),
-    path('sigup/', views.sigup, name='sigup'),
-    path('sigin/', views.sigin, name='sigin'),
-    path('sair/', views.sair, name='sair'),
+    
+    path('criar', views.criar, name='criar'),
+    path('update/<int:pk>', views.update, name='update'),
+    path('delete/<int:pk>', views.delete, name='delete'),
 
-    path('criar/post/', views.criar_post, name='criar_post'),
-    path('criar/<int:post_id>/delete', views.deletar_post, name='deletar_post'), 
-
+    path('signin/', views.signin, name='signin'),
+    path('sair/', views.sair, name='sair')
 ]
